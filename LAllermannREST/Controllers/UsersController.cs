@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LAllermannREST.Models;
-using LAllermannREST.Services.PasswordHashers;
+
+using LAllermannREST.Data;
+using LAllermannShared.Models.Entities;
 
 namespace LAllermannREST.Controllers
 {
@@ -15,16 +11,12 @@ namespace LAllermannREST.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserContext _context;
-        private readonly IPasswordHasher _passwordHasher;
-
        
         public UsersController(UserContext context)
         {
             _context = context;
         }
-
-        
-         
+ 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         // TODO: Disable this endpoint for production

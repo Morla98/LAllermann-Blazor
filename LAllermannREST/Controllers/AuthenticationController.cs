@@ -1,16 +1,16 @@
-﻿using LAllermannREST.Models;
-using LAllermannREST.Models.Requests;
-using LAllermannREST.Models.Responses;
-using LAllermannREST.Services.Configuration;
-using LAllermannREST.Services.PasswordHashers;
-using LAllermannREST.Services.TokenGenerators;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
+using LAllermannREST.Data;
+using LAllermannREST.Models.Responses;
+using LAllermannREST.Services.PasswordHashers;
+using LAllermannREST.Services.TokenGenerators;
+using LAllermannShared.Models.Entities;
+using LAllermannREST.Models;
 namespace LAllermannREST.Controllers
 {
-    
+
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

@@ -1,11 +1,11 @@
-
-using LAllermannREST.Models;
-using LAllermannREST.Services.PasswordHashers;
-using LAllermannREST.Services.Configuration;
-using LAllermannREST.Services.TokenGenerators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
+using LAllermannREST.Services.PasswordHashers;
+using LAllermannREST.Services.TokenGenerators;
+using LAllermannREST.Data;
+using LAllermannREST.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -14,9 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AuthenticationConfiguration>(builder.Configuration.GetSection("Configuration"));
 
 builder.Services.AddControllers();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
     {
+        var jwtSecret = builder.Configuration.GetSection("Configuration")["JWTSecret"];
+        if (jwtSecret == null)
+        {
+            throw new Exception("JWTSecret not found in configuration");
+        }
+        SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
+        
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -25,7 +31,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration.GetSection("Configuration")["JwtIssuer"],
             ValidAudience = builder.Configuration.GetSection("Configuration")["JwtAudience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Configuration")["JWTSecret"]))
+            IssuerSigningKey = signingKey
         };
         options.Audience = "LAllermannREST";
     });
@@ -39,6 +45,7 @@ builder.Services.AddDbContext<PasswordContext>();
 
 builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddSingleton<AccessTokenGenerator>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,7 +59,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

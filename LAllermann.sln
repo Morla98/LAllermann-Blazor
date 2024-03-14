@@ -5,6 +5,13 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAllermannREST", "LAllermannREST\LAllermannREST.csproj", "{6423EDA5-9909-4942-A578-A345FE217A74}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAllermannWebsite", "LAllermannWebsite\LAllermannWebsite.csproj", "{73F8C7EA-8D00-477B-8024-7B5A66E1B07B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{41E6617E-3403-4C01-9FEF-0510131F107A} = {41E6617E-3403-4C01-9FEF-0510131F107A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAllermannShared", "LAllermannShared\LAllermannShared.csproj", "{41E6617E-3403-4C01-9FEF-0510131F107A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,14 @@ Global
 		{6423EDA5-9909-4942-A578-A345FE217A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6423EDA5-9909-4942-A578-A345FE217A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6423EDA5-9909-4942-A578-A345FE217A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F8C7EA-8D00-477B-8024-7B5A66E1B07B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F8C7EA-8D00-477B-8024-7B5A66E1B07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F8C7EA-8D00-477B-8024-7B5A66E1B07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F8C7EA-8D00-477B-8024-7B5A66E1B07B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41E6617E-3403-4C01-9FEF-0510131F107A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E6617E-3403-4C01-9FEF-0510131F107A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41E6617E-3403-4C01-9FEF-0510131F107A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41E6617E-3403-4C01-9FEF-0510131F107A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LAllermannREST.Models
+namespace LAllermannShared.Models.Entities
 {
     public class Password
     {
         [Key]
         public long Id { get; set; }
         [ForeignKey("User")]
-        public long UserId  { get; set; }
+        public long UserId { get; set; }
         public string? Title { get; set; }
         public string? Username { get; set; }
         public string? UserPassword { get; set; }

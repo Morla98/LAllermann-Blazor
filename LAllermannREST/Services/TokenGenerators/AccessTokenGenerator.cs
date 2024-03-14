@@ -1,16 +1,18 @@
-﻿using LAllermannREST.Models;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+using LAllermannShared.Models.Entities;
+using LAllermannREST.Models;
+
 namespace LAllermannREST.Services.TokenGenerators
 {
     public class AccessTokenGenerator
     {
-        private readonly Configuration.AuthenticationConfiguration _configuration;
-        public AccessTokenGenerator(IOptions<Configuration.AuthenticationConfiguration> configuration)
+        private readonly AuthenticationConfiguration _configuration;
+        public AccessTokenGenerator(IOptions<AuthenticationConfiguration> configuration)
         {
             _configuration = configuration.Value;
         }

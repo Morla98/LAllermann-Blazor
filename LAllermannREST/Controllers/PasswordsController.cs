@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LAllermannREST.Models;
 using Microsoft.AspNetCore.Authorization;
 using LAllermannREST.Services.TokenGenerators;
 using System.Security.Claims;
+
+using LAllermannREST.Data;
+using LAllermannShared.Models.Entities;
 
 namespace LAllermannREST.Controllers
 {
@@ -41,7 +38,9 @@ namespace LAllermannREST.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<Password>>> GetPasswordByUser()
         {
-            int userid = int.Parse(HttpContext.User.FindFirstValue("Id"));
+            string? idClaim = HttpContext.User.FindFirstValue("Id");
+            if (idClaim == null) return Unauthorized("Invalid token");
+            int userid = int.Parse(idClaim);
             return await _context.Password.Where(p => p.UserId == userid).ToListAsync();
         }
 
@@ -55,8 +54,9 @@ namespace LAllermannREST.Controllers
             {
                 return BadRequest();
             }
-
-            int tokenId = int.Parse(HttpContext.User.FindFirstValue("Id"));
+            string? idClaim = HttpContext.User.FindFirstValue("Id");
+            if (idClaim == null) return Unauthorized("Invalid token");
+            int tokenId = int.Parse(idClaim);
             if (tokenId != password.UserId)
             {
                 return Unauthorized("You are not allowed to modify passwords for other users");
@@ -89,7 +89,9 @@ namespace LAllermannREST.Controllers
         [Authorize]
         public async Task<ActionResult<Password>> PostPassword(Password password)
         {
-            int TokenUserId = int.Parse(HttpContext.User.FindFirstValue("Id"));
+            string? idClaim = HttpContext.User.FindFirstValue("Id");
+            if (idClaim == null) return Unauthorized("Invalid");
+            int TokenUserId = int.Parse(idClaim);
             if (TokenUserId != password.UserId)
             {
                 return Unauthorized("You are not allowed to create passwords for other users");
@@ -112,7 +114,9 @@ namespace LAllermannREST.Controllers
             {
                 return BadRequest();
             }
-            int tokenId = int.Parse(HttpContext.User.FindFirstValue("Id"));
+            string? idClaim = HttpContext.User.FindFirstValue("Id");
+            if (idClaim == null) return Unauthorized("Invalid");
+            int tokenId = int.Parse(idClaim);
             if (tokenId != password.UserId)
             {
                 return Unauthorized("You are not allowed to delete passwords for other users");
@@ -124,6 +128,7 @@ namespace LAllermannREST.Controllers
             return NoContent();
         }
 
+        
         private bool PasswordExists(long id)
         {
             return _context.Password.Any(e => e.Id == id);

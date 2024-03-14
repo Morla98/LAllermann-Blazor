@@ -2,6 +2,6 @@
 {
     public class AuthenticationResponse
     {
-        public String AccessToken { get; set; }
+        public String? AccessToken { get; set; }
     }
 }
