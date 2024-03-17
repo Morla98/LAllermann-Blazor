@@ -8,6 +8,7 @@ using LAllermannREST.Services.PasswordHashers;
 using LAllermannREST.Services.TokenGenerators;
 using LAllermannShared.Models.Entities;
 using LAllermannREST.Models;
+using Microsoft.AspNetCore.Authorization;
 namespace LAllermannREST.Controllers
 {
 
@@ -43,6 +44,12 @@ namespace LAllermannREST.Controllers
 
             return new string(apiKey);
         }
+        [HttpGet("api/validate-token")]
+        [Authorize]
+        public IActionResult ValidateToken()
+        {
+            return Ok("Token is valid");
+        }
 
         [HttpPost("api/register")]
         public async Task<IActionResult> Register([FromBody] Models.Requests.RegisterRequest registerRequest)
@@ -59,13 +66,21 @@ namespace LAllermannREST.Controllers
             {
                 return BadRequest("Invalid owner key");
             }
+
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == registerRequest.RoleId);
+            if (role == null)
+            {
+				return BadRequest("Invalid role");
+			}
+
             var user = new User
             {
                 Name = registerRequest.Username,
                 Password = _passwordHasher.HashPassword(registerRequest.Password),
                 CreatedAt = DateTime.Now,
                 LastLogin = DateTime.Now,
-                APIKEY = GenerateAPIKEY()
+                APIKEY = GenerateAPIKEY(),
+                RoleId = registerRequest.RoleId
             };
 
             //Check if user already exists
@@ -74,6 +89,8 @@ namespace LAllermannREST.Controllers
             {
                 return BadRequest("Username already exists");
             }
+
+
 
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();

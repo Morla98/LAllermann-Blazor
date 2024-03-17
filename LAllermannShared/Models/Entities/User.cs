@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LAllermannShared.Models.Entities
 {
@@ -14,5 +15,10 @@ namespace LAllermannShared.Models.Entities
         public string APIKEY { get; set; } = "";
         public DateTime? CreatedAt { get; set; }
         public DateTime? LastLogin { get; set; }
+
+		
+		public long RoleId { get; set; }
+		[ForeignKey("RoleId")]
+		public virtual Role Role { get; set; }
     }
 }

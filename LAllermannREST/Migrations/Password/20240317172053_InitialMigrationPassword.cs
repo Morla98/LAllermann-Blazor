@@ -5,7 +5,7 @@
 namespace LAllermannREST.Migrations.Password
 {
     /// <inheritdoc />
-    public partial class InitialCreatePassword : Migration
+    public partial class InitialMigrationPassword : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

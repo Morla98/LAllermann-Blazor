@@ -10,16 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAllermannREST.Migrations.Password
 {
     [DbContext(typeof(PasswordContext))]
-    [Migration("20240313095859_InitialCreatePassword")]
-    partial class InitialCreatePassword
+    [Migration("20240317172053_InitialMigrationPassword")]
+    partial class InitialMigrationPassword
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
-            modelBuilder.Entity("LAllermannREST.Models.Password", b =>
+            modelBuilder.Entity("LAllermannShared.Models.Entities.Password", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

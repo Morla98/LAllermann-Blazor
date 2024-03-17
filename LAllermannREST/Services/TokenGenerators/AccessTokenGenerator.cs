@@ -21,11 +21,13 @@ namespace LAllermannREST.Services.TokenGenerators
         {
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JwtSecret));
             SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            
             List<Claim> claims = new List<Claim>
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("APIKEY", user.APIKEY), //
+                new Claim("RoleId", user.RoleId.ToString())
             };
             JwtSecurityToken token = new JwtSecurityToken(
                 _configuration.JwtIssuer,
@@ -43,7 +45,5 @@ namespace LAllermannREST.Services.TokenGenerators
         {
             return new JwtSecurityTokenHandler().ReadJwtToken(token);
         }
-
-
     }
 }

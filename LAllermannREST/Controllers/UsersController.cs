@@ -23,7 +23,7 @@ namespace LAllermannREST.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            return await _context.User.ToListAsync();
+            return await _context.User.Include(u => u.Role).ToListAsync();
         }
         
         /*

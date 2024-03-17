@@ -11,22 +11,38 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAllermannREST.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240313095843_InitialCreateUser")]
-    partial class InitialCreateUser
+    [Migration("20240317172041_InitialMigrationUser")]
+    partial class InitialMigrationUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
-            modelBuilder.Entity("LAllermannREST.Models.User", b =>
+            modelBuilder.Entity("LAllermannShared.Models.Entities.Role", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("LAllermannShared.Models.Entities.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("APIKEY")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -43,9 +59,23 @@ namespace LAllermannREST.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long?>("RoleId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("LAllermannShared.Models.Entities.User", b =>
+                {
+                    b.HasOne("LAllermannShared.Models.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

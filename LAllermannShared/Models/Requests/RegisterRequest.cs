@@ -12,5 +12,6 @@ namespace LAllermannREST.Models.Requests
         public string ConfirmPassword { get; set; } = "";
         [Required(ErrorMessage = "Owner key is required.")]
         public string? OwnerKey { get; set; }
+        public long RoleId { get; set; }
     }
 }
