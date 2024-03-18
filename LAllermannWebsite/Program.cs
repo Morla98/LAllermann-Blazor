@@ -1,8 +1,9 @@
 using LAllermannWebsite.Components;
 using LAllermannWebsite.Models;
-using LAllermannWebsite.Services.Authentication;
+using LAllermannWebsite.Services.ApiServices.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.Configure<Configuration>(builder.Configuration.GetSection("Configuration"));
-builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(options =>
@@ -24,7 +27,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/access-denied";
 	});
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+        policy.RequireClaim(ClaimTypes.Role, "1"));
+    options.AddPolicy("User", policy =>
+        policy.RequireClaim(ClaimTypes.Role, "2"));
+});
+
 builder.Services.AddCascadingAuthenticationState();
 
 

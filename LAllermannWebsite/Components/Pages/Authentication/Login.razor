@@ -6,7 +6,8 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
 
-@inject LAllermannWebsite.Services.Authentication.IAuthenticationService AuthenticationService
+@inject IUserAuthenticationService UserAuthenticationService
+@inject NavigationManager NavigationManager
 
 <h3>Login</h3>
 <div class="row">
@@ -38,48 +39,18 @@
 
 	[SupplyParameterFromForm]
 	public LoginViewModel Model { get; set; } = new();
-	[Inject]
-	protected NavigationManager NavigationManager { get; set; }
 	private string? errorMessage = "";
 	private async Task OnValidSubmit()
 	{
 		try
 		{
-			var principal = await AuthenticationService.GetClaimsPrincipalAsync(Model.Username, Model.Password);
-			if (principal == null) throw new Exception("Something happend and principal is null");
-			
-			string? expiresUtcString = principal.FindFirst("exp")?.Value;
-			if (expiresUtcString == null) throw new Exception("Token does not contain an expiration date or an error occured while passing");
-			DateTime expiresUtc = DateTime.Parse(expiresUtcString);
-			/* TODO authProperties like HTTPOnly, ExipireUTC, IsPersistent
-			 * Currently not Authorinzg anymore if SignInAsync is called with authProperties
-			 
-			var authProperties = new AuthenticationProperties
-			{
-				IsPersistent = true,
-				ExpiresUtc = expiresUtc
-			};
-
-			*/
-			
-			/*
-			// Print all claims
-			Debug.WriteLine("Principal:");
-			foreach (var claim in principal.Claims)
-			{
-				Debug.WriteLine($"{claim.Type}: {claim.Value}");
-			}
-			*/
-			
-			
-			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+			await UserAuthenticationService.SignIn(Model.Username, Model.Password);
 		}
-		catch (Exception ex)
+		catch(Exception ex)
 		{
 			errorMessage = ex.Message;
 			Debug.WriteLine(ex.Message);
 			Debug.WriteLine(ex.StackTrace);
-			return;
 		}
 		NavigationManager.NavigateTo("/secret");
 	}
