@@ -22,9 +22,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
 		options.LoginPath = "/login";
 		options.LogoutPath = "/logout";
-        options.Cookie.Name = "auth_token";
+		options.AccessDeniedPath = "/access-denied";
+		options.SlidingExpiration = true;
+		options.Cookie.Name = "auth_token";
         options.Cookie.MaxAge = TimeSpan.FromMinutes(60);
-        options.AccessDeniedPath = "/access-denied";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ReturnUrlParameter = "returnUrl";
 	});
 
 builder.Services.AddAuthorization(options =>

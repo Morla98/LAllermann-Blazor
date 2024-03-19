@@ -1,0 +1,12 @@
+﻿@page "/refresh"
+@using System.Diagnostics
+@inject NavigationManager NavigationManager
+@inject IUserAuthenticationService UserAuthenticationService
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		await UserAuthenticationService.RefreshTokenIfNeededAsync();
+		NavigationManager.NavigateTo("/secret");
+	}
+}

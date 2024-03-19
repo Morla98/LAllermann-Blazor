@@ -9,6 +9,7 @@ using LAllermannREST.Services.TokenGenerators;
 using LAllermannShared.Models.Entities;
 using LAllermannREST.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 namespace LAllermannREST.Controllers
 {
 
@@ -124,7 +125,22 @@ namespace LAllermannREST.Controllers
                 
             };
             return Ok(responsebody);
-            
         }
-    }
+
+        [HttpGet("/api/refresh-token")]
+        [Authorize]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var authHeader = Request.Headers["Authorization"];
+            var token = authHeader.ToString().Split(" ")[1];
+            
+            var user = _accessTokenGenerator.getUserFromToken(token);
+            if (user == null)
+            {
+                return Unauthorized("Invalid");
+            }
+            string newToken = _accessTokenGenerator.GenerateToken(user);
+			return Ok(newToken);
+		}
+	}
 }

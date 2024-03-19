@@ -6,6 +6,7 @@ using System.Text;
 
 using LAllermannShared.Models.Entities;
 using LAllermannREST.Models;
+using Newtonsoft.Json.Linq;
 
 namespace LAllermannREST.Services.TokenGenerators
 {
@@ -45,5 +46,22 @@ namespace LAllermannREST.Services.TokenGenerators
         {
             return new JwtSecurityTokenHandler().ReadJwtToken(token);
         }
+
+        public User getUserFromToken(string token)
+        {
+            var JWTToken = DecodeToken(token);
+			var userId = JWTToken.Claims.First(c => c.Type == "Id").Value;
+			var userName = JWTToken.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+			var RoleId = JWTToken.Claims.First(c => c.Type == "RoleId").Value;
+			var APIKEY = JWTToken.Claims.First(c => c.Type == "APIKEY").Value;
+
+            return new User
+            {
+				Id = int.Parse(userId),
+				Name = userName,
+				RoleId = int.Parse(RoleId),
+				APIKEY = APIKEY
+			};
+		}
     }
 }

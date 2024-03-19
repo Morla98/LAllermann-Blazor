@@ -15,16 +15,18 @@ namespace LAllermannWebsite.Models.Authentication
 		public string Audience { get; set; }
 
 		private JwtSecurityTokenHandler _tokenHandler = new JwtSecurityTokenHandler();
-		public LAllermannToken(string token)
+		public LAllermannToken(string token, bool printDebug=false)
 		{
-			Debug.WriteLine("Creating LAllermannToken");
+
+
+			if (printDebug) Debug.WriteLine("Creating LAllermannToken");
 			JwtSecurityToken jwtToken = _tokenHandler.ReadJwtToken(token);
 			var tokenId = jwtToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-			Debug.WriteLine("TokenId: " + tokenId);
+			if (printDebug) Debug.WriteLine("TokenId: " + tokenId);
 			var tokenName = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-			Debug.WriteLine("TokenName: " + tokenName);
+			if (printDebug) Debug.WriteLine("TokenName: " + tokenName);
 			var tokenRoleId = jwtToken.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value;
-			Debug.WriteLine("TokenRoleId: " + tokenRoleId);
+			if (printDebug) Debug.WriteLine("TokenRoleId: " + tokenRoleId);
 			User = new UserToken()
 			{
 				Id = long.Parse(tokenId),
@@ -32,7 +34,7 @@ namespace LAllermannWebsite.Models.Authentication
 				RoleId = long.Parse(tokenRoleId)
 			};
 			Token = token;
-			Debug.WriteLine("Token: " + Token);
+			if (printDebug) Debug.WriteLine("Token: " + Token);
 			Nbf = jwtToken.ValidFrom;
 			Expiration = jwtToken.ValidTo;
 			Issuer = jwtToken.Issuer;
@@ -43,7 +45,7 @@ namespace LAllermannWebsite.Models.Authentication
 			{
 				throw new Exception("Invalid Token");
 			}
-			Debug.WriteLine("Finished Creating LAllermannToken");
+			if (printDebug) Debug.WriteLine("Finished Creating LAllermannToken");
 		}
 	}
 }

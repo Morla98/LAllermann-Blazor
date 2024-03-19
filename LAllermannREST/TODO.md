@@ -1,3 +1,3 @@
 # TODO
 
-- [ ] Implement token refresh
+- [X] Implement token refresh
