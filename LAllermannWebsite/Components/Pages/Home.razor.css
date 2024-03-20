@@ -1,0 +1,27 @@
+﻿
+
+
+.Hi {
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    transform: translateY(160px);
+    margin-top: 15em;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start with opacity 0 */
+        transform: translateY(160px); /* Start 20px down */
+    }
+
+    to {
+        opacity: 1; /* End with opacity 1 */
+        transform: translateY(0px);
+    }
+}
+
+.Hi h1 {
+    font-size: 15em;
+    color: white ;
+}

@@ -134,6 +134,7 @@ namespace LAllermannWebsite.Services.ApiServices.Authentication
         {
             var authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             var token = authenticationState.User.FindFirst("Token")?.Value;
+            if (token == null) return; // No token found
             if(!NeedRefresh(token)) return; // No refresh needed
 			Debug.WriteLine("Token is nearing expiration. Initiating refresh process.");
 			try

@@ -1,16 +1,15 @@
-﻿@page "/secret"
+﻿@page "/debug"
 @rendermode InteractiveServer
-@using System.Diagnostics
 @using System.Security.Claims
 @inject IUserAuthenticationService UserAuthenticationService
 @inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
-<PageTitle>Secret</PageTitle>
+<PageTitle>Debug</PageTitle>
 
-<h1>Hello, to the Secret Site!</h1>
+<h1>Hello, to the Debug Site!</h1>
 <AuthorizeView>
 	<Authorized >
-		<p>This is a secret page that only logged in users can see.</p>
+		<p>This is a debug page that only logged in users can see.</p>
 		<span>Logged in as <b>@name</b></span>
 		<p>Your token is <b>@token</b></p>
 		<p>Your RoleId is <b>@RoleId</b></p>
@@ -68,9 +67,9 @@
 		}
 	}
 
-	public async Task OnButtonPress()
+	private void OnButtonPress()
 	{
-		Debug.WriteLine("Trying to refresh");
+		System.Diagnostics.Debug.WriteLine("Trying to refresh");
 		NavigationManager.NavigateTo("/refresh", true);
 	}
 }

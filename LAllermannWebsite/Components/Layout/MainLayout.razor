@@ -1,29 +1,27 @@
 ﻿@using System.Diagnostics
 @using Microsoft.AspNetCore.Components.Authorization
-@inject IUserAuthenticationService UserAuthenticationService
-@inject AuthenticationStateProvider AuthenticationStateProvider
 @inherits LayoutComponentBase
 
-<div class="page">    
-    <!---<NavMenu /> -->
-    <main>       
-        <article class="content px-4">
-            @Body
-        </article>
-        <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-            <Authorized>
-               <a href="https://localhost:7227/logout">Logout</a>
-            </Authorized>
-            <NotAuthorized>
-                <a href="https://localhost:7227/login">Login</a>
-            </NotAuthorized>
-        </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-        <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-    </main>
-</div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+<div class="container-fluid">
+ 	<div class="row">
+		<div class="col">
+			<NavMenu />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<main>
+				<article class="content">
+					@Body
+				</article>
+			</main>
+		</div>
+	</div>
+
+	<footer>
+		<p class="footer">@DateTime.Now.Year - LAllermann</p>
+		<a href="/impressum" class="footer">Impressum</a>
+	</footer>
+
 </div>

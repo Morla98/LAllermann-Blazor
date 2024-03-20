@@ -7,6 +7,6 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await UserAuthenticationService.RefreshTokenIfNeededAsync();
-		NavigationManager.NavigateTo("/secret");
+		NavigationManager.NavigateTo("/");
 	}
 }
