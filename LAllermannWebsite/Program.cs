@@ -1,6 +1,7 @@
 using LAllermannWebsite.Components;
 using LAllermannWebsite.Models;
 using LAllermannWebsite.Services.ApiServices.Authentication;
+using LAllermannWebsite.Services.ApiServices.PasswordManager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
@@ -15,7 +16,7 @@ builder.Services.AddRazorComponents()
 builder.Services.Configure<Configuration>(builder.Configuration.GetSection("Configuration"));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
-
+builder.Services.AddScoped<PasswordManagerService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(options =>
