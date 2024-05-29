@@ -26,8 +26,8 @@
 
 
 #### Chapter 3: PasswordManager
-- [ ] Design a Layout for the PasswordManager Page
-- [ ] Implement PasswordManager Page
+- [X] Design a Layout for the PasswordManager Page
+- [X] Implement PasswordManager Page
 - [ ] 
 
 #### Chapter 4: Make it go online
