@@ -1,4 +1,4 @@
-# Projektname: LAllermann
+# Projektname: LAllermann-Blazor
 
 ## Projektbeschreibung
 
